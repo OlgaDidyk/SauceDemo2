@@ -18,10 +18,10 @@ public class CartTest extends BaseTest {
 
     @Test
     public void purchaseTest() {
-        catalogPage.addProductToCart(ProductTest.TEST_PRODUCT_TITLE);
+        catalogPage.addProductToCart(CatalogTest.TEST_PRODUCT_TITLE);
         cartPage.open();
         cartPage.isPageLoaded();
-        cartPage.pushCheckoutButton();
+        cartPage.pushButton();
         checkoutPage.isPageLoaded();
         checkoutPage.fillInField(CheckoutPage.FIRST_NAME_LOCATOR, FIRST_NAME_VALUE);
         checkoutPage.fillInField(CheckoutPage.LAST_NAME_LOCATOR, LAST_NAME_VALUE);
@@ -33,9 +33,9 @@ public class CartTest extends BaseTest {
         Assert.assertTrue(catalogPage.isPageLoaded(), "Catalog page is not loaded");
     }
 
-/*        @AfterClass(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void teardown() {
         driver.close();
         driver.quit();
-    }*/
+    }
 }

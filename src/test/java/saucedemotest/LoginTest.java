@@ -7,12 +7,13 @@ import web.pages.LoginPage;
 
 public class LoginTest extends BaseTest {
 
+    @BeforeMethod
     public void openLoginPage() {
         loginPage.open();
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
     }
 
-    @BeforeMethod
+    @Test
     public void validCredentialLogin() {
         openLoginPage();
         loginPage.login(USERNAME, PASSWORD);
@@ -34,4 +35,23 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(loginPage.getErrorMessage(), LoginPage.ERROR_MESSAGE_LOCKED_USER,
                 "Error message is incorrect");
     }
+
+    @Test
+    public void userNameFieldRequired() {
+        openLoginPage();
+        loginPage.login(null, PASSWORD);
+        Assert.assertEquals(loginPage.getErrorMessage(),
+                LoginPage.ERROR_MESSAGE_USERNAME_REQUIRED,
+                "Username required text is incorrect");
+    }
+
+    @Test
+    public void passwordFieldRequired() {
+        openLoginPage();
+        loginPage.login(USERNAME, null);
+        Assert.assertEquals(loginPage.getErrorMessage(),
+                LoginPage.ERROR_MESSAGE_PASSWORD_REQUIRED,
+                "Password required text is incorrect");
+    }
+
 }

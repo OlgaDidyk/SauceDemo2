@@ -12,12 +12,13 @@ public class CartPage extends BasePage {
 
     private static final By TITLE_LOCATOR = By.xpath(".//span[@class='title' and text()='Your Cart']");
     private static final By PRODUCT_TITLE_IN_CART = By.className("inventory_item_name");
-    private static final By CHECKOUT_BUTTON = By.id("checkout");
+    public static final By CHECKOUT_BUTTON = By.id("checkout");
+    private static final By PRODUCT_LOCATOR = By.xpath("//div[@class='inventory_item_name']");
 
     public CartPage(WebDriver driver) {
         super(driver);
         this.baseUrl = BASE_URL;
-        this.basePageElementId = TITLE_LOCATOR;
+        this.basePageElement = TITLE_LOCATOR;
     }
 
     public boolean validateAddedProducts(List<String> partialTitles) {
@@ -28,7 +29,7 @@ public class CartPage extends BasePage {
         }
 
         for (WebElement product : products) {
-            String productTitle = product.findElement(By.xpath("//div[@class='inventory_item_name']")).getText();
+            String productTitle = product.findElement(PRODUCT_LOCATOR).getText();
             if (!partialTitles.contains(productTitle)) {
                 return false;
             }
@@ -36,10 +37,11 @@ public class CartPage extends BasePage {
         return true;
     }
 
-    public void pushCheckoutButton() {
+    public void pushButton() {
         driver.findElement(CHECKOUT_BUTTON).click();
-
     }
+
+
 
 /*    public boolean createListOfTitles(String title){
         List<String> titles = new ArrayList<>();

@@ -2,17 +2,19 @@ package saucedemotest;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import web.pages.BasePage;
 import web.pages.CatalogPage;
-import web.pages.LoginPage;
+import web.pages.HeaderPage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductTest extends BaseTest {
+public class CatalogTest extends BaseTest {
 
     public static final String TEST_PRODUCT_TITLE = "Test.allTheThings() T-Shirt (Red)";
     public static final String TEST_PRODUCT2_TITLE = "Sauce Labs Backpack";
@@ -27,11 +29,9 @@ public class ProductTest extends BaseTest {
 
     @AfterMethod
     private void clearCart() {
-        if (!loginPage.open().toString().equals(LoginPage.BASE_URL)) {
-            login();
-        } else System.out.println(loginPage.open().toString());
-        cartPage.open();
-        cartPage.isPageLoaded();
+        login();
+        cartPage.open()
+                .isPageLoaded();
         List<WebElement> allButtons = driver.findElements(By.className("cart_button"));
         for (WebElement button : allButtons) {
             if (button.getText().equals("REMOVE")) {
@@ -51,14 +51,14 @@ public class ProductTest extends BaseTest {
     }
 
     @Test
-    public void logout() {
-        catalogPage.openMenuAndValidation();
-        catalogPage.pushMenuOption(CatalogPage.LOGOUT_MENU_OPTION);
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not open");
+    public void logoutTest() {
+        Assert.assertTrue(catalogPage.openMenu(), "Menu is not opened");
+        catalogPage.pushMenuOption(CatalogPage.LOGOUT_BUTTON_NAME);
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not opened");
     }
 
     @Test
-    public void buttonTitleChangedToRemove() {
+    public void buttonTitleChangedToRemoveTest() {
         catalogPage.addProductToCart(TEST_PRODUCT2_TITLE);
         Assert.assertEquals(catalogPage.checkButtonTitle(TEST_PRODUCT2_TITLE),
                 CatalogPage.REMOVE_BUTTON,
@@ -66,11 +66,30 @@ public class ProductTest extends BaseTest {
     }
 
     @Test
-    public void buttonTitleChangedToAddToCart() {
-        buttonTitleChangedToRemove();
+    public void buttonTitleChangedToAddToCartTest() {
+        buttonTitleChangedToRemoveTest();
         catalogPage.addProductToCart(TEST_PRODUCT2_TITLE);
         Assert.assertEquals(catalogPage.checkButtonTitle(TEST_PRODUCT2_TITLE),
                 CatalogPage.ADD_TO_CART_BUTTON, "Button title is not changed to Add to cart");
     }
 
+    @Test
+    public void emptyCartHasNoCounterTest() {
+        driver.findElement(HeaderPage.CART_ICON);
+        Assert.assertTrue(BasePage.wait.until(ExpectedConditions.invisibilityOfElementLocated(HeaderPage.CART_COUNTER)));
+    }
+
+    @Test
+    public void sortingZtoATest() {
+        ArrayList<String> expected = catalogPage.sortingProductListZtoA();
+        catalogPage.setSortingOption(CatalogPage.SORT_OPTION_ZA_NAME);
+        Assert.assertEquals(catalogPage.getProductList(), expected, "Sorting Z to A is incorrect");
+    }
+
+    @Test
+    public void sortingAtoZTest() {
+        ArrayList<String> expected = catalogPage.sortingProductListAtoZ();
+        catalogPage.setSortingOption(CatalogPage.SORT_OPTION_AZ_NAME);
+        Assert.assertEquals(catalogPage.getProductList(), expected, "Sorting A to Z is incorrect");
+    }
 }

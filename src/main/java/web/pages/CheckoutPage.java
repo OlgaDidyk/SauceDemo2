@@ -17,7 +17,7 @@ public class CheckoutPage extends BasePage {
     public CheckoutPage(WebDriver driver) {
         super(driver);
         this.baseUrl = BASE_URL;
-        this.basePageElementId = TITLE_LOCATOR;
+        this.basePageElement = TITLE_LOCATOR;
     }
 
     public void fillInField(By fieldLocator, String fieldValue) {

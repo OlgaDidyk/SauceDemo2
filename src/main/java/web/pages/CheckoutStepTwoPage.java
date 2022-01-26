@@ -13,7 +13,7 @@ public class CheckoutStepTwoPage extends BasePage {
     public CheckoutStepTwoPage(WebDriver driver) {
         super(driver);
         this.baseUrl = BASE_URL;
-        this.basePageElementId = TITLE_LOCATOR;
+        this.basePageElement = TITLE_LOCATOR;
     }
 
     public void pushFinishButton() {
