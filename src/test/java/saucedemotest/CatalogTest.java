@@ -2,14 +2,12 @@ package saucedemotest;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import web.pages.BasePage;
+import web.elements.BurgerMenuElement;
 import web.pages.CatalogPage;
-import web.pages.HeaderPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +19,12 @@ public class CatalogTest extends BaseTest {
 
     @BeforeMethod
     private void login() {
-        loginPage.open();
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
+        Assert.assertTrue(
+                loginPage
+                        .open()
+                        .isPageLoaded()
+                , "Login page is not loaded"
+        );
         loginPage.login(USERNAME, PASSWORD);
         Assert.assertTrue(catalogPage.isPageLoaded(), "Catalog page is not loaded");
     }
@@ -40,11 +42,12 @@ public class CatalogTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test(invocationCount = 5)
     public void addProductToCartTest() {
         catalogPage.addProductToCart(TEST_PRODUCT_TITLE);
-        cartPage.open();
-        cartPage.isPageLoaded();
+        cartPage
+                .open()
+                .isPageLoaded();
         List<String> listOfExpectedTitles = new ArrayList<>();
         listOfExpectedTitles.add(TEST_PRODUCT_TITLE);
         Assert.assertTrue(cartPage.validateAddedProducts(listOfExpectedTitles), "Products in the cart is not match");
@@ -52,44 +55,64 @@ public class CatalogTest extends BaseTest {
 
     @Test
     public void logoutTest() {
-        Assert.assertTrue(catalogPage.openMenu(), "Menu is not opened");
-        catalogPage.pushMenuOption(CatalogPage.LOGOUT_BUTTON_NAME);
+        Assert.assertTrue(catalogPage.burgerMenu.open(), "Menu is not opened");
+        catalogPage.burgerMenu.pushMenuOption(BurgerMenuElement.LOGOUT_BUTTON_NAME);
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not opened");
     }
 
     @Test
     public void buttonTitleChangedToRemoveTest() {
-        catalogPage.addProductToCart(TEST_PRODUCT2_TITLE);
-        Assert.assertEquals(catalogPage.checkButtonTitle(TEST_PRODUCT2_TITLE),
-                CatalogPage.REMOVE_BUTTON,
-                "Button title is not changed to Remove");
+        Assert.assertEquals(
+                catalogPage
+                .addProductToCart(TEST_PRODUCT2_TITLE)
+                .checkButtonTitle(TEST_PRODUCT2_TITLE)
+                , CatalogPage.REMOVE_BUTTON
+                ,"Button title is not changed to Remove");
     }
 
     @Test
     public void buttonTitleChangedToAddToCartTest() {
         buttonTitleChangedToRemoveTest();
-        catalogPage.addProductToCart(TEST_PRODUCT2_TITLE);
-        Assert.assertEquals(catalogPage.checkButtonTitle(TEST_PRODUCT2_TITLE),
-                CatalogPage.ADD_TO_CART_BUTTON, "Button title is not changed to Add to cart");
+        Assert.assertEquals(
+                catalogPage
+                    .addProductToCart(TEST_PRODUCT2_TITLE)
+                    .checkButtonTitle(TEST_PRODUCT2_TITLE)
+                    , CatalogPage.ADD_TO_CART_BUTTON
+                    , "Button title is not changed to Add to cart"
+        );
     }
 
     @Test
-    public void emptyCartHasNoCounterTest() {
-        driver.findElement(HeaderPage.CART_ICON);
-        Assert.assertTrue(BasePage.wait.until(ExpectedConditions.invisibilityOfElementLocated(HeaderPage.CART_COUNTER)));
+    public void emptyCartHasNotCounterTest() throws InterruptedException {
+        Assert.assertFalse(catalogPage.cartIconElement.emptyCartHasNotCounter(), "Cart counter is shown for empty cart");
+    }
+
+    @Test
+    public void badgeIsNotDisplayed() throws InterruptedException {
+        Assert.assertFalse(catalogPage.isBadgeDisplayed(5));
     }
 
     @Test
     public void sortingZtoATest() {
         ArrayList<String> expected = catalogPage.sortingProductListZtoA();
-        catalogPage.setSortingOption(CatalogPage.SORT_OPTION_ZA_NAME);
-        Assert.assertEquals(catalogPage.getProductList(), expected, "Sorting Z to A is incorrect");
+        Assert.assertEquals(
+                catalogPage
+                .setSortingOption(CatalogPage.SORT_OPTION_ZA_NAME)
+                .getProductList()
+                , expected
+                , "Sorting Z to A is incorrect"
+        );
     }
 
     @Test
     public void sortingAtoZTest() {
         ArrayList<String> expected = catalogPage.sortingProductListAtoZ();
-        catalogPage.setSortingOption(CatalogPage.SORT_OPTION_AZ_NAME);
-        Assert.assertEquals(catalogPage.getProductList(), expected, "Sorting A to Z is incorrect");
+        Assert.assertEquals(
+                catalogPage
+                .setSortingOption(CatalogPage.SORT_OPTION_AZ_NAME)
+                .getProductList()
+                , expected
+                , "Sorting A to Z is incorrect"
+        );
     }
 }

@@ -2,6 +2,7 @@ package web.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import web.base.BasePage;
 
 public class CheckoutStepTwoPage extends BasePage {
 
@@ -13,7 +14,7 @@ public class CheckoutStepTwoPage extends BasePage {
     public CheckoutStepTwoPage(WebDriver driver) {
         super(driver);
         this.baseUrl = BASE_URL;
-        this.basePageElement = TITLE_LOCATOR;
+        this.baseElementLocator = TITLE_LOCATOR;
     }
 
     public void pushFinishButton() {

@@ -2,6 +2,7 @@ package web.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import web.base.BasePage;
 
 public class LoginPage extends BasePage {
 
@@ -17,7 +18,7 @@ public class LoginPage extends BasePage {
     public LoginPage(WebDriver driver) {
         super(driver);
         this.baseUrl = BASE_URL;
-        this.basePageElement = LOGIN_BUTTON;
+        this.baseElementLocator = LOGIN_BUTTON;
     }
 
     public void login(String username, String password) {

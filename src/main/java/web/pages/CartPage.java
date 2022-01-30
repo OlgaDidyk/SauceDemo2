@@ -3,6 +3,9 @@ package web.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import web.base.BasePage;
+import web.elements.BurgerMenuElement;
+import web.elements.CartIconElement;
 
 import java.util.List;
 
@@ -15,10 +18,15 @@ public class CartPage extends BasePage {
     public static final By CHECKOUT_BUTTON = By.id("checkout");
     private static final By PRODUCT_LOCATOR = By.xpath("//div[@class='inventory_item_name']");
 
+    public BurgerMenuElement burgerMenu;
+    public CartIconElement cartIconElement;
+
     public CartPage(WebDriver driver) {
         super(driver);
+        this.burgerMenu = new BurgerMenuElement(driver);
+        this.cartIconElement = new CartIconElement(driver);
         this.baseUrl = BASE_URL;
-        this.basePageElement = TITLE_LOCATOR;
+        this.baseElementLocator = TITLE_LOCATOR;
     }
 
     public boolean validateAddedProducts(List<String> partialTitles) {
@@ -37,15 +45,10 @@ public class CartPage extends BasePage {
         return true;
     }
 
-    public void pushButton() {
+    public CheckoutPage pushButton() {
         driver.findElement(CHECKOUT_BUTTON).click();
+        return new CheckoutPage(driver);
     }
 
 
-
-/*    public boolean createListOfTitles(String title){
-        List<String> titles = new ArrayList<>();
-        titles.add(title);
-        return validateAddedProducts(titles);
-    }*/
 }

@@ -2,6 +2,7 @@ package web.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import web.base.BasePage;
 
 public class CheckoutPage extends BasePage {
 
@@ -17,11 +18,12 @@ public class CheckoutPage extends BasePage {
     public CheckoutPage(WebDriver driver) {
         super(driver);
         this.baseUrl = BASE_URL;
-        this.basePageElement = TITLE_LOCATOR;
+        this.baseElementLocator = TITLE_LOCATOR;
     }
 
-    public void fillInField(By fieldLocator, String fieldValue) {
+    public CheckoutPage fillInField(By fieldLocator, String fieldValue) {
         driver.findElement(fieldLocator).sendKeys(fieldValue);
+        return this;
 
     }
 
