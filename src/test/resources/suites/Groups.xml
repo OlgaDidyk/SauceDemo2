@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Group suite">
+    <parameter name="username" value="standard_user"/>
+    <parameter name="password" value="secret_sauce"/>
+    <groups>
+        <run>
+            <include name="config"/>
+            <include name="smoke"/>
+            <exclude name="skip"/>
+            <exclude name="slow"/>
+            <exclude name="flacky"/>
+        </run>
+    </groups>
+    <test name="test 1">
+        <classes>
+            <class name="saucedemotest.CatalogTest"/>
+        </classes>
+    </test>
+</suite>

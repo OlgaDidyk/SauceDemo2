@@ -64,10 +64,10 @@ public class CatalogTest extends BaseTest {
     public void buttonTitleChangedToRemoveTest() {
         Assert.assertEquals(
                 catalogPage
-                .addProductToCart(TEST_PRODUCT2_TITLE)
-                .checkButtonTitle(TEST_PRODUCT2_TITLE)
+                        .addProductToCart(TEST_PRODUCT2_TITLE)
+                        .checkButtonTitle(TEST_PRODUCT2_TITLE)
                 , CatalogPage.REMOVE_BUTTON
-                ,"Button title is not changed to Remove");
+                , "Button title is not changed to Remove");
     }
 
     @Test
@@ -75,10 +75,10 @@ public class CatalogTest extends BaseTest {
         buttonTitleChangedToRemoveTest();
         Assert.assertEquals(
                 catalogPage
-                    .addProductToCart(TEST_PRODUCT2_TITLE)
-                    .checkButtonTitle(TEST_PRODUCT2_TITLE)
-                    , CatalogPage.ADD_TO_CART_BUTTON
-                    , "Button title is not changed to Add to cart"
+                        .addProductToCart(TEST_PRODUCT2_TITLE)
+                        .checkButtonTitle(TEST_PRODUCT2_TITLE)
+                , CatalogPage.ADD_TO_CART_BUTTON
+                , "Button title is not changed to Add to cart"
         );
     }
 
@@ -97,8 +97,8 @@ public class CatalogTest extends BaseTest {
         ArrayList<String> expected = catalogPage.sortingProductListZtoA();
         Assert.assertEquals(
                 catalogPage
-                .setSortingOption(CatalogPage.SORT_OPTION_ZA_NAME)
-                .getProductList()
+                        .setSortingOption(CatalogPage.SORT_OPTION_ZA_NAME)
+                        .getProductList()
                 , expected
                 , "Sorting Z to A is incorrect"
         );
@@ -109,8 +109,8 @@ public class CatalogTest extends BaseTest {
         ArrayList<String> expected = catalogPage.sortingProductListAtoZ();
         Assert.assertEquals(
                 catalogPage
-                .setSortingOption(CatalogPage.SORT_OPTION_AZ_NAME)
-                .getProductList()
+                        .setSortingOption(CatalogPage.SORT_OPTION_AZ_NAME)
+                        .getProductList()
                 , expected
                 , "Sorting A to Z is incorrect"
         );

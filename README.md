@@ -1,4 +1,19 @@
 ## Saucedemo project. Page object pattern. Practice
+ 
+
+[INFO] The following dependencies in Dependencies have newer versions  
+[INFO]   org.seleniumhq.selenium:selenium-java ................. 4.1.0 -> 4.1.2  
+[INFO]   org.testng:testng ....................................... 7.4.0 -> 7.5  
+
+mvn clean test  
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.873 s - in TestSuite  
+
+mvn test -Dtest=LoginTest  
+mvn test -Dtest=LoginTest#validCredentialLogin  
+mvn test -Dtest=LoginTest#validCredentialLogin+lockedUserTest  
+
+
+
 
 Saucedemo is an online store created for practice 
 automation testing. I used it for practice 

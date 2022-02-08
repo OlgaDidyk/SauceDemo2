@@ -12,8 +12,8 @@ public class CartTest extends BaseTest {
     private void login() {
         Assert.assertTrue(
                 loginPage
-                .open()
-                .isPageLoaded()
+                        .open()
+                        .isPageLoaded()
                 , "Login page is not loaded"
         );
 
