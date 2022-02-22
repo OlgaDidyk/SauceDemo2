@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!--<suite name="Tests Suite" thread-count="3" parallel="tests" >-->
+<suite name="Tests Suite">
+    <test name="Login test">
+        <parameter name="keyword" value="keyValue"></parameter>
+        <classes>
+            <class name="saucedemotest.LoginTest"/>
+        </classes>
+    </test> <!-- Test -->
+    <test name="Catalog test">
+        <classes>
+            <class name="saucedemotest.CatalogTest"/>
+        </classes>
+    </test> <!-- Test -->
+    <test name="Cart Test">
+        <classes>
+            <class name="saucedemotest.CartTest"/>
+        </classes>
+    </test> <!-- Test -->
+    <test name="Maven properties test">
+        <classes>
+            <class name="maventest.ExternalPropertyTest">
+                <methods>
+                    <include name="browserPropertyTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
