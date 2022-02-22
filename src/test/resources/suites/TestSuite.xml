@@ -3,6 +3,7 @@
 <!--<suite name="Tests Suite" thread-count="3" parallel="tests" >-->
 <suite name="Tests Suite">
     <test name="Login test">
+        <parameter name="keyword" value="keyValue"></parameter>
         <classes>
             <class name="saucedemotest.LoginTest"/>
         </classes>

@@ -11,7 +11,12 @@ Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.873 s - in T
 mvn test -Dtest=LoginTest  
 mvn test -Dtest=LoginTest#validCredentialLogin  
 mvn test -Dtest=LoginTest#validCredentialLogin+lockedUserTest  
+  
+  
 
+Allure report is used for the project:  
+mvn allure:serve  
+mvn allure:report
 
 
 

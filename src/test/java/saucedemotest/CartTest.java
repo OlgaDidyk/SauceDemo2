@@ -1,5 +1,6 @@
 package saucedemotest;
 
+import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
@@ -22,7 +23,13 @@ public class CartTest extends BaseTest {
         Assert.assertTrue(catalogPage.isPageLoaded(), "Catalog page is not loaded");
     }
 
-    @Test
+    @Test(description = "Testing of a purchase")
+    @Description("Some description from the @Description annotation")
+    @Issue(value = "SHAR-21")
+    @TmsLinks({
+            @TmsLink(value = "SHAR-1"),
+            @TmsLink(value = "SHAR-2")
+    })
     public void purchaseTest() {
         catalogPage
                 .addProductToCart(CatalogTest.TEST_PRODUCT_TITLE);
@@ -47,6 +54,7 @@ public class CartTest extends BaseTest {
     }
 
     @Test
+    @Link("https://www.saucedemo.com/")
     public void menuIsOpenedTest() {
         loginPage
                 .open();

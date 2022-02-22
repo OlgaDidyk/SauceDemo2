@@ -3,10 +3,8 @@ package web.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import web.base.AbstractElement;
-import web.base.BasePage;
+
 
 public class CartIconElement extends AbstractElement {
     public static final By CART_ICON = By.id("shopping_cart_container");

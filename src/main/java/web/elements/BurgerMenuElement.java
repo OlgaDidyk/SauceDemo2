@@ -1,5 +1,6 @@
 package web.elements;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import web.base.AbstractElement;
@@ -16,6 +17,7 @@ public class BurgerMenuElement extends AbstractElement {
         super.baseElementLocator = BURGER_MENU_BUTTON;
     }
 
+    @Step("Opening the burger menu {BURGER_MENU_BUTTON}")
     public boolean open() {
         driver.findElement(BURGER_MENU_BUTTON).click();
         try {
@@ -26,6 +28,7 @@ public class BurgerMenuElement extends AbstractElement {
         return true;
     }
 
+    @Step("Pushing menu option from burger menu")
     public void pushMenuOption(String partialBtnName) {
         String buttonXPath = String.format(MENU_BUTTON_PATTERN, partialBtnName);
         By buttonLocator = By.xpath(buttonXPath);

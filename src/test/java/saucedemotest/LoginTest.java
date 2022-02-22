@@ -1,16 +1,14 @@
 package saucedemotest;
 
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import io.qameta.allure.Allure;
+import io.qameta.allure.Flaky;
+import io.qameta.allure.Step;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import utils.AllureUtils;
 import utils.TestListener;
 import web.pages.LoginPage;
 
-import java.io.File;
-import java.io.FileOutputStream;
 
 @Listeners({TestListener.class})
 public class LoginTest extends BaseTest {
@@ -27,21 +25,19 @@ public class LoginTest extends BaseTest {
 
 
     @Test(priority = 5)
-    public void validCredentialLogin() {
+    @Step("пример с кейвордом {keyword}")
+    @Flaky
+    @Parameters({"keyword"})
+    public void validCredentialLogin(@Optional String keyword) {
         loginPage
                 .login(USERNAME, PASSWORD);
-        ;
-        byte[] screenshotByte = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        File screenshot = new File("screenshot.jpg");
-        try (FileOutputStream outputStream = new FileOutputStream(screenshot)) {
-            outputStream.write(screenshotByte);
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String json = String.format("{\"user\": \"%s\", \"password\": \"%s\"}", USERNAME, PASSWORD);
+        //AllureUtils.attachJson(json.getBytes(StandardCharsets.UTF_8));
+        Allure.addAttachment("Credentials from Allure static", "text/json", json);//можно так добавлять аттачи, без создания утилиты AllureUtils
         Assert.assertTrue(catalogPage.isPageLoaded(), "Catalog page is not loaded");
     }
 
+    @Step("Фейловый тест")
     @Test(priority = 1)
     public void userNamePlaceholderTest() {
         Assert.assertEquals(loginPage.getUsernamePlaceholder(),

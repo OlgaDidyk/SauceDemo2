@@ -10,6 +10,6 @@ public class ExternalPropertyTest {
         //String externalProperty = System.getProperty("browser");
         String externalProperty = System.getenv("browser");
         System.out.println("-----------" + externalProperty);
-        Assert.assertEquals(externalProperty, "CHROME2");
+        Assert.assertEquals(externalProperty, "CHROME");
     }
 }

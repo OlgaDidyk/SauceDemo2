@@ -13,54 +13,56 @@ import java.util.concurrent.TimeUnit;
 
 public class TestListener implements ITestListener {
 
-    public void onTestStart(ITestResult iTestResult) {
-        System.out.println((String.format("======================================== STARTING TEST %s" +
-                " ========================================", iTestResult.getName())));
-    }
+    public static final String PARAGRAPH_SEPARATOR = "========================================";
 
-    public void onTestSuccess(ITestResult iTestResult) {
-        System.out.println(String.format("======================================== FINISHED TEST %s Duration: %ss" +
-                        " ========================================", iTestResult.getName(),
-                getExecutionTime(iTestResult)));
+    public void onTestFailure_2(ITestResult iTestResult) {
+        System.out.println(String.format("%s FAILED TEST %s Duration: %ss %s",
+                PARAGRAPH_SEPARATOR,
+                iTestResult.getName(),
+                getExecutionTime(iTestResult),
+                PARAGRAPH_SEPARATOR));
+        takeScreenshotToFile(iTestResult);
     }
 
     public void onTestFailure(ITestResult iTestResult) {
-        System.out.println(String.format("======================================== FAILED TEST %s Duration: %ss" +
-                        " ========================================", iTestResult.getName(),
-                getExecutionTime(iTestResult)));
-        takeScreenshotToFile(iTestResult);
+        AllureUtils.attachScreenshot(getScreenshot(iTestResult));
     }
 
-    public void onTestSkipped(ITestResult iTestResult) {
-        System.out.println(String.format("======================================== SKIPPING TEST %s" +
-                " ========================================", iTestResult.getName()));
-        takeScreenshotToFile(iTestResult);
-    }
-
-    @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
-
-    }
-
-
-    private long getExecutionTime(ITestResult iTestResult) {
-        return TimeUnit.MILLISECONDS.toSeconds(iTestResult.getEndMillis() - iTestResult.getStartMillis());
-    }
-
-    private File takeScreenshotToFile(ITestResult iTestResult) {
+    private byte[] getScreenshot(ITestResult iTestResult) {
         ITestContext context = iTestResult.getTestContext();
         try {
             WebDriver driver = (WebDriver) context.getAttribute("driver");
             if (driver != null) {
-                File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                return file;
+                return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             } else {
                 return null;
             }
         } catch (NoSuchSessionException | IllegalStateException ex) {
             return null;
         }
-
     }
 
+    private File takeScreenshotToFile(ITestResult iTestResult) {
+        ITestContext context = iTestResult.getTestContext();
+        try {
+            WebDriver driver = (WebDriver) context.getAttribute("driver");
+            System.out.println("driver = " + String.valueOf(driver));
+            if (driver != null) {
+                String filename = String.format(
+                        "%s%s_screenshot.jpg",
+                        "target/site/",
+                        iTestResult.getName());
+                byte[] screenshotByte = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                return FileUtils.bytesToFile(filename, screenshotByte);
+            } else {
+                return null;
+            }
+        } catch (NoSuchSessionException | IllegalStateException ex) {
+            return null;
+        }
+    }
+
+    private long getExecutionTime(ITestResult iTestResult) {
+        return TimeUnit.MILLISECONDS.toSeconds(iTestResult.getEndMillis() - iTestResult.getStartMillis());
+    }
 }
