@@ -7,6 +7,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
+import utils.CapabilitiesGenerator;
 import utils.TestListener;
 import web.pages.*;
 
@@ -38,12 +39,16 @@ public class BaseTest {
     @BeforeClass
     public void setUp(ITestContext iTestContext) {
         initParams();
+/* Этот кусок вынесли в CapabilitiesGenerator класс
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("headless");
         chromeOptions.addArguments("--ignore-popup-blocking");
-        chromeOptions.addArguments("--ignore-certificate-errors");
-        driver = new ChromeDriver(chromeOptions);
+        chromeOptions.addArguments("--ignore-certificate-errors");*/
+
+        driver = new ChromeDriver(CapabilitiesGenerator.getChromeOptions());  /*если нужен другой драйвер то меняем
+         этот метод на другой который определяет ваш драйвер по параметру и уже выбирает нужный CapabilitiesGenerator и
+         нужный объект драйвера.*/
         setContextAttribute(iTestContext, "driver", driver);
         driver.manage().window().maximize();
 
