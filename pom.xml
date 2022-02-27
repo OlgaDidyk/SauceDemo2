@@ -48,13 +48,13 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <argLine>-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"</argLine>
-<!--                    <environmentVariables>
-                       <browser>${default.browser}</browser>
-                   </environmentVariables>-->
-
                     <environmentVariables>
-                       <driver_path>${driver_path}</driver_path>
+                       <browser>${default.browser}</browser>
                    </environmentVariables>
+
+                    <systemPropertyVariables>
+                        <driver_path>${driver_path}</driver_path>
+                    </systemPropertyVariables>
                     <suiteXmlFiles>
                         <suiteXmlFile>${testNgSuiteFilePath}${suite}.xml</suiteXmlFile>
                     </suiteXmlFiles>
