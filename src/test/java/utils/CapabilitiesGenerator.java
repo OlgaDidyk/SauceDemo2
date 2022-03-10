@@ -20,7 +20,7 @@ public class CapabilitiesGenerator {
         // "/MAC/chromedriver"
         // "/linux.86/chromedriver"
 
-        System.setProperty("webdriver.chrome.driver", PropertiesUtils.get("driver_path"));
+        System.setProperty("webdriver.chrome.driver", PropertiesUtils.getEnv("driver_path"));
         options.addArguments("--ignore-certificate-errors");
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--disable-notifications");
